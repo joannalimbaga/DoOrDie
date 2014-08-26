@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.2.0.min.css">
+<script src="js/jquery-1.8.2.min.js"></script>
+<script src="js/jquery.mobile-1.2.0.min.js"></script>
+
+	
+
+<script type="text/javascript">
+
+// variable
+var array;
+var str;
+var sagot1 = 0;
+;
+var name1;
+var numm = 1;
+ 
+// function that updating the highscore
+function don(){
+				var name2 = $("#bbb").val();
+				var score2 = $("#score").val();
+				
+				$.ajax({
+					url: "php/updatescore.php",
+					type: "POST",
+					data: {"name2":name2,"score2":score2},
+					success:function(data){
+						$("#show1").html(data);		
+					}
+				});
+numm = 1;
+str = 1;
+sagot1 = 0;
+document.getElementById("score").value = 0;
+
+document.getElementById("a").value=0;
+document.getElementById("scorenum").innerHTML = "Score: "+ sagot1;
+				
+				document.getElementById("questionnum").innerHTML ="Question: 1" ;
+				
+};
+//end of updating funtion
+
+// function for setting the randomizeIndexes array
+function getQuestionsIndexes(){
+		setTimeout(function(){
+				var questionsIndexes = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100];
+				var	randomizeIndexes = [];
+				var	i = questionsIndexes.length;
+				var	j = 0;
+
+				while (i--) {
+					j = Math.floor(Math.random() * (i+1));
+					randomizeIndexes.push(questionsIndexes[j]);
+					questionsIndexes.splice(j,1);
+				}
+				
+				array = randomizeIndexes; 
+				$("#testArray").val(array);
+str = array[0];
+				removed = array.splice(0,1);
+					$("#testArray").val(array);
+					
+document.getElementById("a").value=0;
+					loadAjax();
+					answer4();
+					a();
+					b();
+					c();
+					
+		},50);	
+		};
+	
+//end of randomizing function
+	
+	//function to get the correct answer of each question in database and its picture
+function answer4(){
+		 //check browser compatibility
+			var xmlhttp;
+			
+			if(window.XMLHttpRequest){
+				xmlhttp = new XMLHttpRequest;
+				console.log("NEW BROWSER");
+			}
+			else{
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				console.log("OLD BROWSER");
+		
+			}		//check browser state
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+
+		
+		document.getElementById("sagot").value = xmlhttp.responseText;
+			document.getElementById("score").value = sagot1;
+			
+						  document.getElementById("pic").src = "image/"+xmlhttp.responseText+".png";
+	
+			}
+	
+		}
+		//load 
+		xmlhttp.open("GET","php/sagot.php?q="+str,true);
+		xmlhttp.send();
+		}
+		//end of Correct answer function
+
+// function that determine if the its game over or go next question
+		function loadAjax(){
+		 //check browser compatibility
+			var xmlhttp;
+			
+			if(window.XMLHttpRequest){
+				xmlhttp = new XMLHttpRequest;
+				console.log("NEW BROWSER");
+			}
+			else{
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				console.log("OLD BROWSER");
+		
+			}		//check browser state
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+			
+			
+					
+			var a =xmlhttp.responseText;
+			
+			document.getElementById("hid").innerHTML= a;
+
+				
+			if(document.getElementById("a").value==1){
+		str = 1;
+				document.getElementById("hid").innerHTML = "no eqry";
+				document.getElementById("ewan1").innerHTML = "Your Score is " +sagot1 ;
+				
+				document.getElementById("ewan2").innerHTML = "Name: " +name1 ;
+				document.getElementById("ewan22").src = "image/Awesome.gif";
+				
+				document.getElementById("ewan3").innerHTML = "Congratiolation You Win! " ;
+				
+// similar behavior as an HTTP redirect
+window.location.replace("#ewan");
+
+// similar behavior as clicking on a link
+window.location.href = "#ewan";
+		
+		}else if(document.getElementById("a").value==2){
+		str = 1;
+				document.getElementById("hid").innerHTML = "no eqry";
+				document.getElementById("ewan1").innerHTML = "Your Score is " +sagot1 ;
+				
+				document.getElementById("ewan2").innerHTML = "Name: " +name1 ;
+				document.getElementById("ewan22").src = "image/cry.gif";
+				
+				document.getElementById("ewan3").innerHTML = "GAME OVER!!! " ;
+// similar behavior as an HTTP redirect
+window.location.replace("#ewan");
+
+// similar behavior as clicking on a link
+window.location.href = "#ewan";
+		}else{	
+				document.getElementById("Question").innerHTML = a;	
+	document.getElementById("a").value=0;
+					
+		}}}
+		//load 
+		xmlhttp.open("GET","php/company.php?q="+str,true);
+		xmlhttp.send();
+		}
+//end of loadAjax Function
+	
+//function for showing the top 10 highscore
+		function boards(){
+		 
+		//check browser compatibility
+			var xmlhttp;
+			
+			if(window.XMLHttpRequest){
+				xmlhttp = new XMLHttpRequest;
+				console.log("NEW BROWSER");
+			}
+			else{
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				console.log("OLD BROWSER");
+		
+			}		//check browser state
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+			
+			
+			
+			document.getElementById("statre").innerHTML= xmlhttp.responseText;
+			
+		
+			}
+	
+		}
+		//load 
+		xmlhttp.open("GET","php/stat.php?q=",true);
+		xmlhttp.send();
+		
+		
+		}
+// end of showing top score
+		
+		
+//function for showing the Answer
+function a(){
+			
+		//check browser compatibility
+			var xmlhttp;
+			
+			if(window.XMLHttpRequest){
+				xmlhttp = new XMLHttpRequest;
+				console.log("NEW BROWSER");
+			}
+			else{
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				console.log("OLD BROWSER");
+		
+			}		//check browser state
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+			
+						
+			document.getElementById("Answer11").innerHTML = xmlhttp.responseText;
+						document.getElementById("answer01").value = xmlhttp.responseText;
+
+			}
+	
+		}
+		//load 
+		xmlhttp.open("GET","php/answer1.php?q="+str,true);
+		xmlhttp.send();
+		
+		}
+function b(){
+			
+		//check browser compatibility
+			var xmlhttp;
+			
+			if(window.XMLHttpRequest){
+				xmlhttp = new XMLHttpRequest;
+				console.log("NEW BROWSER");
+			}
+			else{
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				console.log("OLD BROWSER");
+		
+			}		//check browser state
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+			
+						
+			document.getElementById("Answer22").innerHTML = xmlhttp.responseText;
+			
+						document.getElementById("answer02").value = xmlhttp.responseText;
+			}
+	
+		}
+		//load 
+		xmlhttp.open("GET","php/answer2.php?q="+str,true);
+		xmlhttp.send();
+		
+		
+}
+function c(){
+			
+		//check browser compatibility
+			var xmlhttp;
+			
+			if(window.XMLHttpRequest){
+				xmlhttp = new XMLHttpRequest;
+				console.log("NEW BROWSER");
+			}
+			else{
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				console.log("OLD BROWSER");
+		
+			}		//check browser state
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+			
+						
+			document.getElementById("Answer3333").innerHTML = xmlhttp.responseText;
+			
+						document.getElementById("answer03").value = xmlhttp.responseText;
+						
+			}
+	
+		}
+		//load 
+		xmlhttp.open("GET","php/answer3.php?q="+str,true);
+		xmlhttp.send();
+		}
+		
+		
+//end of showing answer
+		
+	//Ajax code 	
+		$(document).ready(function(){
+			
+			
+		
+		// ajax when you click Register submit button
+		$("a#submit2").click(function(){
+				var userr = $("#userr").val();
+				var passs = $("#passs").val();
+				
+				var fullname = $("#fullname").val();
+				$.ajax({
+					url: "php/register.php",
+					type: "POST",
+					data: {"userr":userr,"passs":passs,"fullname":fullname},
+					success:function(data){
+						$("#show").html(data);
+						
+					}
+					
+				
+				});
+				
+				document.getElementById("userr").value = "";
+
+				document.getElementById("passs").value = "";				
+					
+			});
+			//end of register code
+			
+					// ajax when you click login button
+
+			$("a#submit").click(function(){
+				var user = $("#username").val();
+				var pass = $("#password").val();
+				$.ajax({
+					url: "php/login.php",
+					type: "POST",
+					data: {"username":user,"password":pass},
+					success:function(data){
+						$("#show").html(data);
+						if(document.getElementById("b").value==1){
+			
+				document.getElementById("hid").innerHTML = "no eqry";
+							name1=	document.getElementById("bbb").value ;
+							document.getElementById("uname").innerHTML="Welcome!  "+ name1;
+
+// similar behavior as an HTTP redirect
+window.location.replace("#doordie");
+
+// similar behavior as clicking on a link
+window.location.href = "#doordie";
+		}
+					}				
+							});
+				document.getElementById("username").value = "";
+				document.getElementById("password").value = "";						
+			});
+		});
+		//end of login code
+		
+		
+// function for verifying if the user answer is correct or not		
+		function choose1(){
+		
+		if(document.getElementById("sagot").value == document.getElementById("answer01").value){
+		
+str = array[0];
+				removed = array.splice(0,1);
+					$("#testArray").val(array);
+		
+		sagot1 += 1;
+		numm += 1;
+			document.getElementById("questionnum").innerHTML = "Question: "+ numm;
+				document.getElementById("scorenum").innerHTML = "Score: "+ sagot1;
+				
+			loadAjax();
+		a();
+		b();
+		c();
+	answer4();
+		
+		}else{
+			
+				document.getElementById("a").value=2;	
+loadAjax();
+		};		
+		};
+		function choose2(){
+		if(document.getElementById("sagot").value == document.getElementById("answer02").value){
+		
+str = array[0];
+				removed = array.splice(0,1);
+					$("#testArray").val(array);
+		
+		sagot1 += 1;
+		numm += 1;
+			document.getElementById("questionnum").innerHTML = "Question: "+ numm;
+				document.getElementById("scorenum").innerHTML = "Score: "+ sagot1;
+			
+		loadAjax();
+		a();
+		b();
+		c();
+	answer4();
+
+		}else{				
+				document.getElementById("a").value=2;
+loadAjax();
+		};
+		};
+		function choose3(){
+		if(document.getElementById("sagot").value ==document.getElementById("answer03").value){	
+				str = array[0];
+				removed = array.splice(0,1);
+				$("#testArray").val(array);
+		
+				sagot1 += 1;
+				numm += 1;
+				document.getElementById("questionnum").innerHTML = "Question: "+ numm;
+				document.getElementById("scorenum").innerHTML = "Score: "+ sagot1;
+			
+				loadAjax();
+				a();
+				b();
+				c();
+	answer4();
+			}else{
+				document.getElementById("a").value=2;	};
+		loadAjax();
+		};
+	// end of verifying answer	
+		
+function displaypage()
+{
+var t=setTimeout("displaydiv()",2000);// it will Delay for 3 seconds
+}
+
+function displaydiv()
+{
+// similar behavior as an HTTP redirect
+window.location.replace("#main");
+
+// similar behavior as clicking on a link
+window.location.href = "#main";
+
+}
+		
+		
+	</script>
+
+<style type="text/css">
+	 	#backpic{
+		float: right;
+
+		height: 30%;
+		
+		width: 30%;
+		
+		}
+ 	#pic{
+		float: top;
+
+		height: 70%;
+		
+		width: 70%;
+		
+		}
+		 	#menupic{
+		float: top;
+
+		height: 70%;
+		
+		width: 70%;
+		
+		}
+	#info{
+	font-family: Berlin Sans FB Demi;
+		font-size: 25px;
+		
+	}
+	#ewan1{
+		font-family: Berlin Sans FB Demi;
+		font-size: 25px;
+		
+	}
+	#uname{
+		font-family: Berlin Sans FB Demi;
+		font-size: 40px;
+		
+	}
+	#ewan2{
+		font-family: Berlin Sans FB Demi;
+		font-size: 25px;
+		
+	}
+	
+		#show{
+		font-family: Berlin Sans FB Demi;
+		font-size: 27px;
+		color: red;
+		
+	}
+	#ewan3{
+		font-family: Berlin Sans FB Demi;
+		font-size: 25px;
+		
+	}
+	#questionnum{
+		font-family: Berlin Sans FB;
+		font-size: 35px;
+	}
+	#scorenum{
+		font-family: Berlin Sans FB;
+		font-size: 35px;
+	}
+	#Question{
+		font-family: Berlin Sans FB Demi;
+		font-size: 25px;
+		
+	}
+	#boardscore1{
+		font-family: Berlin Sans FB;
+		font-size: 35px;
+	}
+		.buton .ui-btn .ui-btn-inner { padding-top: 40px !important; }
+		.buton .ui-btn .ui-icon { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; 
+		-moz-box-shadow: none!important; 
+		-webkit-box-shadow: none!important; 
+		-webkit-border-radius: 0 !important; border-radius: 0 !important; }
+		#btnlog .ui-icon { background:  url(image/aboutme.png) 50% 50% no-repeat; background-size: 30px 25px; }
+		#btnsurv .ui-icon { background:  url(image/Take-Survey.png) 50% 50% no-repeat; background-size: 30px 25px;  }
+		#abtme .ui-icon { background:  url(image/locateme.png) 50% 50% no-repeat;  background-size:30px 25px; }
+		#btnsta .ui-icon { background:  url(image/Statistic.png) 50% 50% no-repeat;  background-size:30px 25px; }
+		#btnsav .ui-icon { background:  url(image/Save.png) 50% 50% no-repeat;  background-size:30px 25px; }
+		#btnhom .ui-icon { background:  url(image/Home.png) 50% 50% no-repeat;  background-size:30px 25px; }
+		#btnqu .ui-icon { background:  url(image/QA.png) 50% 50% no-repeat;  background-size:30px 25px; }
+		
+	#bg {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+}
+#bg img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+}
+
+</style>
+</head>
+<body onload="displaypage()">
+
+
+
+
+<div  data-theme="a" data-role="page" id ="splash11" data-position="fixed">
+
+
+<div  data-role="content"  id = "myDiv" >
+
+<div id="bg">
+
+  <img src="image/Logo.png" alt="">
+</div>
+
+
+</div>
+</div>
+
+
+
+
+<div  data-theme="a" data-role="page" id ="main" data-position="fixed">
+<div  data-role="header" data-theme="b"  >
+<h1>Do Or Die</h1>
+</div>
+
+<div  data-role="content"  id = "myDiv" >
+
+<center>
+
+
+
+
+<br>
+<br>
+<div   id = "show" >
+</div>
+<img src=icon.png id="menupic">
+<br>
+<br>
+<div id = "info">
+A DoOrDie quiz is a form of game or mind sport in which the players
+ (as individuals) attempt to answer questions correctly in 
+ which you have to answer something or you will fail/lose.
+
+
+</div>
+</center>
+
+<div data-role="popup" id="login" data-theme="a" class="ui-corner-all">
+    <form>
+        <div style="padding:10px 20px;" >
+  <center> LogIn </center> 
+   <br> 
+
+
+
+
+<font size=5>
+	<input type="text" name="username" id="username" placeholder="Enter username"/><br/>
+	<input type="password" name="password" id="password" placeholder="Enter password"/><br/>
+	<a href="#login" data-role=button id="submit">LogIn</a>
+</font>
+<br>
+
+        </div>
+    </form>
+</div>
+
+
+
+<div data-role="popup" id="registerr" data-theme="a" class="ui-corner-all">
+    <form>
+        <div style="padding:10px 20px;" >
+    
+    
+<div   id = "show" >
+</div>
+
+<center>SignUp</center>
+<br>
+<form >
+
+	FullName: <input type="text" name="fullname" id="fullname" placeholder="Enter FullName"/><br/>
+	Username: <input type="text" name="userr" id="userr" placeholder="Enter Username"/><br/>
+	 Password<input type="password" name="passs" id="passs" placeholder="Enter Password"/>
+ <a href="#main"  data-role="button" id="submit2">Submit</a>
+	</form><br>
+
+
+<font size=5>
+	
+</font>
+<br>
+
+        </div>
+    </form>
+</div>
+
+
+
+</div>
+
+	<div data-role="footer" class="buton" data-position="fixed">
+	<div data-role="navbar" class="buton">
+	<ul>
+	<li><a href="#login" data-rel="popup" data-position-to="window" data-role="button"  data-transition="pop"  id="btnlog"   data-theme="b" data-icon="custom" >LogIn</a></li>
+	<li><a href="#registerr" data-rel="popup" data-position-to="window" data-role="button"  data-transition="pop"  id ="btnsurv"  data-theme="b" data-icon="custom" >Register</a></li>
+	
+	</ul>		
+	</div>
+</div>
+</div>
+
+
+<div   data-theme="a" data-role="page" id="reg" data-position="fixed">
+
+<div  data-role="header" data-theme="b"  >
+<h1>DO or DIE</h1>
+</div>
+<div  data-role="content"  id = "myDiv" >
+
+<div  data-role="popup"  >
+<br>
+<input type="text" name="" id="score" /><br />
+<input type="text" name="" id="answer01" /><br />
+<input type="text" name="" id="answer02" /><br />
+<input type="text" name="" id="answer03" /><br />
+<input type="text" name="" id="sagot" /><br />
+<input type="text" name="" id="testArray" /><br />
+</div>
+
+<img src="image/5.gif" id="backpic">
+<input type="hidden" id= "hid">
+
+<input type="hidden" id= "a" value=2>
+		<div id="scorenum"  >Score: 0</div>
+
+
+		<div id="questionnum"  >Question: 1</div>
+<center><br>
+
+
+
+
+
+<img src="" id="pic" >
+	<p id="Answer333"> </p>
+	
+		<div id="Question"  >Question appear here</div> <br><br>
+		<div id="Answer1" data-role='button' onClick="choose1();" ><a id="Answer11"></a></div>
+		
+		<div id="Answer2" data-role='button' onClick="choose2();" ><a id="Answer22"></a></div>
+		
+		<div id="Answer3" data-role='button' onClick="choose3();" ><a id="Answer3333"></a></div>
+<br>
+<br>
+</center>
+</div>
+
+
+
+
+<div data-role="footer" data-position="fixed">
+	<div data-role="navbar">
+		
+	</div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div  data-theme="a" data-role="page" id = "doordie" data-position="fixed">
+
+<div  data-role="header" data-theme="b"  >
+<h1>Do Or Die</h1>
+</div>
+
+<div  data-role="content"  id = "myDiv" >
+<div id=show1></div>
+
+<center>
+<div id="uname"></div>
+
+<img src=icon.png id="menupic">
+<br><br>
+<a href="#reg" data-role="button"  onClick="getQuestionsIndexes();" >Start</a>
+<br>
+</center>
+
+</div>
+
+	<div data-role="footer" class="buton" data-position="fixed">
+	<div data-role="navbar" class="buton">
+	<ul>
+	<li><a href="#main" id="btnlog"  data-transition="slide" data-theme="b" data-icon="custom" >LogOut</a></li>
+		<li><a href="#boardscore"  onClick="boards();" id ="btnsta" data-transition="slide" data-theme="b" data-icon="custom" >HighScore</a></li>
+
+	</ul>		
+	</div>
+</div>
+</div>
+
+
+
+
+
+
+
+<div  data-theme="a" data-role="page" id ="boardscore" data-position="fixed">
+
+<div  data-role="header" data-theme="b"  >
+<h1>Do Or Die</h1>
+</div>
+
+<div  data-role="content"  id = "myDiv" >
+
+<br>
+<br>
+<center><p id='boardscore1'>Top 10 Highscore</p></center>
+<div id="statre"></div>
+
+
+</div>
+
+	<div data-role="footer" class="buton" data-position="fixed">
+	<div data-role="navbar" class="buton">
+	<ul>
+	<li><a href="#doordie" id="btnhom"  data-transition="slide" data-theme="b" data-icon="custom" >Home</a></li>
+
+	</ul>		
+	</div>
+</div>
+</div>
+
+
+
+
+
+
+<div  data-theme="a" data-role="page" id ="ewan" data-position="fixed">
+
+<div  data-role="header" data-theme="b"  >
+<h1>Do Or Die</h1>
+</div>
+
+<div  data-role="content"  id = "myDiv" >
+
+<br>
+<br>
+<center>
+
+<img src="image/Awesome.gif" id="ewan22"  >
+<br><br>
+<div id="ewan3"></div>
+<br>
+<div id="ewan2"> name </div>
+<br>
+<div id="ewan1"> Your Score is 0 </div>
+
+</center>
+</div>
+
+	<div data-role="footer" class="buton" data-position="fixed">
+	<div data-role="navbar" class="buton">
+	<ul>
+	<li><a href="#doordie" id="btnhom" onClick="don(); "  data-transition="slide" data-theme="b" data-icon="custom" >Home</a></li>
+
+	</ul>		
+	</div>
+</div>
+</div>
+
+
+
+
+</body>
+
+</html>
