@@ -13,6 +13,8 @@
 echo "<input type='hidden' id = 'b' value=1>";
 				echo "<br>";
  echo "<input type='hidden' id = 'bbb' value='".$row['Fullname']."'>";
+ 
+ echo "<input type='hidden' id = 'score1' value='".$row['Highscore']."'>";
 	}else{
 		echo "Failed to Login!";
 	}

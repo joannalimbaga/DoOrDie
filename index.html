@@ -17,6 +17,7 @@ var sagot1 = 0;
 ;
 var name1;
 var numm = 1;
+var score11;
  
 // function that updating the highscore
 function don(){
@@ -346,6 +347,9 @@ function c(){
 			
 				document.getElementById("hid").innerHTML = "no eqry";
 							name1=	document.getElementById("bbb").value ;
+								score11=	document.getElementById("score1").value ;
+							
+							document.getElementById("uscore").innerHTML="Your HighScore is  "+ score11;
 							document.getElementById("uname").innerHTML="Welcome!  "+ name1;
 
 // similar behavior as an HTTP redirect
@@ -492,6 +496,11 @@ window.location.href = "#main";
 		font-size: 40px;
 		
 	}
+	#uscore{
+		font-family: Berlin Sans FB Demi;
+		font-size: 40px;
+		
+	}
 	#ewan2{
 		font-family: Berlin Sans FB Demi;
 		font-size: 25px;
@@ -556,7 +565,73 @@ window.location.href = "#main";
   min-width: 50%;
   min-height: 50%;
 }
+#main{
+  position:fixed;
+	height:100%;
+	width:100%;
+	background-image:url(image/a3.png);
+	background-position: top center;
+	background-size: cover;
+}
 
+ 	#menupic{
+		float: top;
+
+		height: 70%;
+		
+		width: 70%;
+		
+	position:center center;
+		}
+#doordie{
+  position:fixed;
+	height:100%;
+	width:100%;
+	background-image:url(image/a3.png);
+	background-position: top center;
+	background-size: cover;
+}
+#splash11{
+  position:fixed;
+	height:100%;
+	width:100%;
+	background-image:url(image/splash.png);
+	background-position: top center;
+	background-size: cover;
+}
+
+#reg{
+  position:fixed;
+	height:100%;
+	width:100%;
+	background-image:url(image/a3.png);
+	background-position: top center;
+	background-size: cover;
+}
+
+#boardscore{
+  position:fixed;
+	height:100%;
+	width:100%;
+	background-image:url(image/a2.jpg);
+	background-size: cover;
+}
+
+#ewan{
+ position:fixed;
+	height:100%;
+	width:100%;
+	background-image:url(image/a2.jpg);
+	background-size: cover;
+}
+#login{
+	background-image:url(image/a2.jpg);
+	background-size: cover;
+}
+#registerr{
+	background-image:url(image/a2.jpg);
+	background-size: cover;
+}
 </style>
 </head>
 <body onload="displaypage()">
@@ -568,11 +643,9 @@ window.location.href = "#main";
 
 
 <div  data-role="content"  id = "myDiv" >
-
-<div id="bg">
-
-  <img src="image/Logo.png" alt="">
-</div>
+<br><br><br>
+<center>
+</center>
 
 
 </div>
@@ -750,6 +823,8 @@ A DoOrDie quiz is a form of game or mind sport in which the players
 
 <img src=icon.png id="menupic">
 <br><br>
+
+<div id="uscore"></div><br><br>
 <a href="#reg" data-role="button"  onClick="getQuestionsIndexes();" >Start</a>
 <br>
 </center>
@@ -760,7 +835,7 @@ A DoOrDie quiz is a form of game or mind sport in which the players
 	<div data-role="navbar" class="buton">
 	<ul>
 	<li><a href="#main" id="btnlog"  data-transition="slide" data-theme="b" data-icon="custom" >LogOut</a></li>
-		<li><a href="#boardscore"  onClick="boards();" id ="btnsta" data-transition="slide" data-theme="b" data-icon="custom" >HighScore</a></li>
+		<li><a href="#boardscore"  onClick="boards();" id ="btnsta" data-transition="slide" data-theme="b" data-icon="custom" >LeaderBoard</a></li>
 
 	</ul>		
 	</div>
